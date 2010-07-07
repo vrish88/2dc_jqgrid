@@ -271,5 +271,19 @@ describe "jqgrid helper method" do
     )
     @grid.include?(%Q(olModel:[{name:'id', index:'id',width:35,resizable:false},{name:'pseudo', index:'pseudo',editoptions:{size:18},editable:true,editrules:{required:true},formoptions:{rowpos:1,elmprefix:\"(*)&nbsp;&nbsp;\"}},{name:'firstname', index:'firstname',editoptions:{size:22},editable:true,formoptions:{rowpos:4,label:\"A label\"}},{name:'lastname', index:'lastname',editoptions:{size:22},editable:true,formoptions:{rowpos:5}},{name:'email', index:'email',editoptions:{size:22},editable:true,formoptions:{rowpos:3}},{name:'role', index:'role',editoptions:{value:\"admin:admin;player:player;defender:defender\",size:22},editable:true,formoptions:{rowpos:2},stype:'select',edittype:'select'}])).should be_true
   end
-  
+
+  it "should be possible to add a grid_loaded option" do
+		@grid = jqgrid("Users", "users", "/users",
+    	[
+    		{ :field => "id", :label => "ID", :width => 35, :resizable => false },
+    		{ :field => "pseudo", :label => "Pseudo", :editable => true, :formoptions => { :rowpos => 1, :elmprefix => "(*)&nbsp;&nbsp;" }, :editoptions => { :size => 18 }, :editrules => { :required => true } },
+    		{ :field => "firstname", :label => "Firstname", :editable => true,  :formoptions => { :rowpos => 4, :label => "A label" }, :editoptions => { :size => 22 } },
+    		{ :field => "lastname", :label => "Lastname", :editable => true, :formoptions => { :rowpos => 5 }, :editoptions => { :size => 22 } },
+    		{ :field => "email", :label => "Email", :editable => true, :formoptions => { :rowpos => 3 }, :editoptions => { :size => 22 } },
+    		{ :field => "role", :label => "Role", :editable => true, :stype => "select", :edittype => "select", :formoptions => { :rowpos => 2 }, :editoptions => { :value => [["admin","admin"], ["player", "player"], ["defender","defender"]], :size => 22 } }
+    	],
+    	{ :add => true, :edit => true, :inline_edit => true, :delete => true, :edit_url => "/users/post_data", :grid_loaded => 'alert("works!");' }
+    )
+    @grid.include?('alert("works!");').should be_true
+  end
 end

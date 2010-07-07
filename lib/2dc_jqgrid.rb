@@ -136,6 +136,17 @@ module Jqgrid
         /
       end
 
+      # Enable gridComplete callback
+      # This fires after all the data is loaded into the grid and all other processes are complete. Also the event fires independent from the datatype parameter and after sorting paging and etc. Call the Javascript function options[:grid_complete] (defined by the user)
+      grid_complete = ""
+      if options[:grid_complete].present?
+        grid_complete = %Q/
+        gridComplete: function(){ 
+          #{options[:grid_complete]}();
+        },
+        /
+      end
+
       # Enable inline editing
       # When a row is selected, all fields are transformed to input types
       editable = ""
@@ -267,6 +278,7 @@ module Jqgrid
               #{multiselect}
               #{masterdetails}
               #{grid_loaded}
+              #{grid_complete}
               #{direct_link}
               #{editable}
               #{subgrid_enabled}
